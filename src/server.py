@@ -9,7 +9,7 @@ from sqlalchemy.engine import Engine
 
 app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABSE_URI"] = "sqlite:///sqlitedb.file"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///sqlitedb.file"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = 0
 
 # Configure sqlite3 to enforce foreign key contraints
@@ -32,3 +32,14 @@ class User(db.Model):
     address = db.Column(db.String(200))
     phone = db.Column(db.String(50))
     posts = db.relationship("BlogPost")
+
+
+class BlogPost(db.Model):
+    __tablename__ = "blog_post"
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(50))
+    body = db.Column(db.String(200))
+    date = db.Column(db.Date)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+
+
